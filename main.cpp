@@ -243,10 +243,8 @@ int main(int argc, char* argv[]) {
         complexData[i] = std::complex<double>(data[2 * i], data[2 * i + 1]);
     }
 
-    // Демодуляция
     std::string output = Demodulate(M, preamb, complexData);
-
-    // Вывод результата
+    
     std::cout << "Demodulated output: " << output << std::endl;
 
     return 0;
