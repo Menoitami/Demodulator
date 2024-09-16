@@ -49,8 +49,7 @@ std::list<double> cumsum(const std::list<double>& data){
         return cumsum;
 }
 
-template <typename ComplexType>
-double sum_abs(const std::vector<ComplexType>& data) {
+double sum_abs(const std::vector<std::complex<double>>& data) {
     double sum = 0;
     for (const auto& val : data) {
         sum += std::abs(val);
@@ -58,8 +57,7 @@ double sum_abs(const std::vector<ComplexType>& data) {
     return sum;
 }
 
-template <typename ComplexType>
-std::list<double> angle(const std::list<ComplexType>& data) {
+std::list<double> angle(const std::list<std::complex<double>>& data) {
     std::list<double> angles;
     for (const auto& val : data) {
         angles.push_back(std::arg(val));
@@ -67,9 +65,9 @@ std::list<double> angle(const std::list<ComplexType>& data) {
     return angles;
 }
 
-template <typename ComplexType>
-std::list<ComplexType> pskmod(const std::vector<int>& data, double M, double phaseOffset = 0.0, bool useGrayCoding = true) {
-    std::list<ComplexType> modulatedData;
+
+std::list<std::complex<double>> pskmod(const std::vector<int>& data, double M, double phaseOffset = 0.0, bool useGrayCoding = true) {
+    std::list<std::complex<double>> modulatedData;
     int numSymbols = data.size();
     double phaseStep = 2.0 * pi / M;
 
@@ -90,8 +88,8 @@ std::list<ComplexType> pskmod(const std::vector<int>& data, double M, double pha
     return modulatedData;
 }
 
-template <typename ComplexType>
-std::list<int> pskDemodGray(const std::list<ComplexType>& iq_cleared, int M, double phaseOffset) {
+
+std::list<int> pskDemodGray(const std::list<std::complex<double>>& iq_cleared, int M, double phaseOffset) {
     std::list<int> demodulatedSymbols;
     double angleStep = 2 * pi / M;
 
@@ -112,7 +110,7 @@ ContainerType Demodulate(const double M, const std::vector<int>& preamb, const s
     unsigned int n = complexData.size();
     unsigned int pLen = preamb.size();
 
-    std::list<std::complex<double>> iq_preamb = pskmod<std::complex<double>>(preamb, M, pi / M, true);
+    std::list<std::complex<double>> iq_preamb = pskmod(preamb, M, pi / M, true);
 
     std::list<std::complex<double>> ph_deltas;
     auto dataIt = complexData.begin();
