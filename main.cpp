@@ -44,7 +44,7 @@ std::list<double> cumsum(const std::list<double>& data){
         double sum=0;
         for (auto val : data){
             sum += val;
-            cumsum.push_back(sum);
+            cumsum.emplace_back(sum);
         }
         return cumsum;
 }
@@ -60,7 +60,7 @@ double sum_abs(const std::vector<std::complex<double>>& data) {
 std::list<double> angle(const std::list<std::complex<double>>& data) {
     std::list<double> angles;
     for (const auto& val : data) {
-        angles.push_back(std::arg(val));
+        angles.emplace_back(std::arg(val));
     }
     return angles;
 }
@@ -98,7 +98,7 @@ std::list<int> pskDemodGray(const std::list<std::complex<double>>& iq_cleared, i
         if (phase < 0) phase += 2 * pi;
         int symbolIndex = static_cast<int>(std::round(phase / angleStep)) % M;
         symbolIndex = graydecode(symbolIndex);
-        demodulatedSymbols.push_back(symbolIndex);
+        demodulatedSymbols.emplace_back(symbolIndex);
     }
 
     return demodulatedSymbols;
@@ -117,7 +117,7 @@ ContainerType Demodulate(const double M, const std::vector<int>& preamb, const s
     auto nextIt = std::next(dataIt);
 
     for (; nextIt != complexData.end(); ++dataIt, ++nextIt) {
-        ph_deltas.push_back(std::pow(std::pow(*nextIt, M) * std::conj(std::pow(*dataIt, M)), 1.0 / M));
+        ph_deltas.emplace_back(std::pow(std::pow(*nextIt, M) * std::conj(std::pow(*dataIt, M)), 1.0 / M));
     }
 
     std::list<double> ph_acc{0};
@@ -128,7 +128,7 @@ ContainerType Demodulate(const double M, const std::vector<int>& preamb, const s
     std::list<std::complex<double>> iq_dedop;
     auto ph_accIt = ph_acc.begin();
     for (const auto& data : complexData) {
-        iq_dedop.push_back(data * std::exp(std::complex<double>(0.0, -(*ph_accIt))));
+        iq_dedop.emplace_back(data * std::exp(std::complex<double>(0.0, -(*ph_accIt))));
         ++ph_accIt;
     }
 
